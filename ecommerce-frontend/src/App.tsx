@@ -1,9 +1,13 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
-import { lazy, Suspense } from 'react'
-import Loader from "./components/Loader"
-const Home = lazy(() => import("./pages/Home"))
-const Search = lazy(() => import("./pages/Search"))
-const Cart = lazy(() => import("./pages/Cart"))
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { lazy, Suspense } from "react";
+import Loader from "./components/Loader";
+import Header from "./components/Header";
+const Login = lazy(()=>import("./pages/Login"));
+const Home = lazy(() => import("./pages/Home"));
+const Search = lazy(() => import("./pages/Search"));
+const Cart = lazy(() => import("./pages/Cart"));
+const Shipping = lazy(() => import("./pages/Shipping"));
+const Orders = lazy(()=>import("./pages/Orders"));
 
 //imports admin's components
 const Dashboard = lazy(() => import("./pages/admin/dashboard"));
@@ -26,21 +30,25 @@ const TransactionManagement = lazy(
 const App = () => {
   return (
     <Router>
-      {/* Header  */}
+      <Header />
       <Suspense fallback={<Loader />}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/search" element={<Search />} />
           <Route path="/cart" element={<Cart />} />
-
-
+          {/* Not LoggedIn route  */}
+          <Route path="/login" element={<Login/>}/>
+          {/* Logged In user routes  */}
+          <Route>
+            <Route path="/shipping" element={<Shipping />} />
+            <Route path="/orders" element={<Orders/>}/>
+          </Route>
           {/* admin route  */}
-          
-          {/* <Route
-            element={
-              <ProtectedRoute isAuthenticated={true} adminRoute={true} isAdmin={true} />
-            }
-          > */}
+          <Route
+          // element={
+          //   <ProtectedRoute isAuthenticated={true} adminRoute={true} isAdmin={true} />
+          // }
+          >
             <Route path="/admin/dashboard" element={<Dashboard />} />
             <Route path="/admin/product" element={<Products />} />
             <Route path="/admin/customer" element={<Customers />} />
@@ -59,13 +67,16 @@ const App = () => {
 
             <Route path="/admin/product/:id" element={<ProductManagement />} />
 
-            <Route path="/admin/transaction/:id" element={<TransactionManagement />} />
-          {/* </Route>; */}
-
+            <Route
+              path="/admin/transaction/:id"
+              element={<TransactionManagement />}
+            />
+          </Route>
+          ;
         </Routes>
       </Suspense>
     </Router>
-  )
-}
+  );
+};
 
-export default App
+export default App;
