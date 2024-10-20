@@ -35,7 +35,7 @@ export const newOrder = TryCatch(
 
     await reduceStock(orderItems);
 
-    await invalidateCatch({ 
+    invalidateCatch({ 
         product: true, 
         order: true, 
         admin: true, 
@@ -121,7 +121,7 @@ export const processOrder = TryCatch(async (req, res, next) => {
 
   await order.save();
 
-  await invalidateCatch({ 
+  invalidateCatch({ 
     product: false, 
     order: true, 
     admin: true,
@@ -145,7 +145,7 @@ export const deleteOrder = TryCatch(async (req, res, next) => {
 
   await order.deleteOne();
 
-  await invalidateCatch({ 
+  invalidateCatch({ 
     product: false,
     order: true,
     admin: true,
